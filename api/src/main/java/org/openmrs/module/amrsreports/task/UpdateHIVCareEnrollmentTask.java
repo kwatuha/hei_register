@@ -16,6 +16,7 @@ public class UpdateHIVCareEnrollmentTask extends AMRSReportsTask {
 	@Override
 	public void doExecute() {
 		// build the ARV Tables
+
 		ARVTableBuilder.getInstance().execute();
 
 		// build the pregnancy table

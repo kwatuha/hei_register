@@ -43,7 +43,7 @@ public class MohHEICohortDefinitionEvaluator implements CohortDefinitionEvaluato
 		locationList.addAll(definition.getFacility().getLocations());
 		context.addParameterValue("locationList", locationList);
 
-        String sql =
+        String sql=
                 "select patient_id" +
                         " from amrsreports_hiv_care_enrollment " +
                         " where " +
@@ -52,9 +52,20 @@ public class MohHEICohortDefinitionEvaluator implements CohortDefinitionEvaluato
                         "  and first_arv_date <= ':reportDate'" +
                         "  and first_arv_location_id in ( :locationList )";
 
+        /*String sql =
+                "select patient_id" +
+                        " from amrsreports_hiv_care_enrollment " +
+                        " where " +
+                        "  first_arv_date is not NULL" +
+                        "  and enrollment_date is not NULL" +
+                        "  and first_arv_date <= ':reportDate'";
+*/
+
         SqlCohortDefinition sqlCohortDefinition = new SqlCohortDefinition(sql.replaceAll(":reportDate", reportDate));
         Cohort results = Context.getService(CohortDefinitionService.class).evaluate(sqlCohortDefinition, context);
 
+        Integer patients=results.size();
+        String tstStr=results.getName();
         return new EvaluatedCohort(results, sqlCohortDefinition, context);
     }
 }

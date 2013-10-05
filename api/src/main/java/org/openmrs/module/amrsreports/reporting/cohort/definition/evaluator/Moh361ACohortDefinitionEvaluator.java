@@ -52,7 +52,7 @@ public class Moh361ACohortDefinitionEvaluator implements CohortDefinitionEvaluat
 
 		List<Location> locationList = new ArrayList<Location>();
 		locationList.addAll(definition.getFacility().getLocations());
-		context.addParameterValue("locationList", locationList);
+		//context.addParameterValue("locationList", locationList);
 
 		for (Location location : locationList) {
 			String personAttributeQuery =
@@ -77,6 +77,9 @@ public class Moh361ACohortDefinitionEvaluator implements CohortDefinitionEvaluat
 
 		SqlCohortDefinition sqlCohortDefinition = new SqlCohortDefinition(sql.replaceAll(":reportDate", reportDate));
 		Cohort results = Context.getService(CohortDefinitionService.class).evaluate(sqlCohortDefinition, context);
+
+        Integer patients=results.size();
+        String tstStr=results.getName();
 
 		return new EvaluatedCohort(results, sqlCohortDefinition, context);
 	}
